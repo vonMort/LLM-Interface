@@ -1,20 +1,19 @@
-from langchain_community.llms import CTransformers
-from langchain.callbacks import StreamingStdOutCallbackHandler
+import src.logger as lg
 from src.question import question_asker_logic
 from src.fileanalyser import file_analyser_logic
-from src.trainer import trainer_logic
-import src.logger as lg
+from langchain_community.llms import GPT4All
+from langchain.callbacks import StreamingStdOutCallbackHandler
+
+streaming_callback = StreamingStdOutCallbackHandler()
 
 
 def initialize_llm():
-    streaming_callback = StreamingStdOutCallbackHandler()
-    llm = CTransformers(
-        model='.//model',
-        model_file='wolfram.gguf',
-        model_type='llama',
-        gpu_layers=80,
-        local_files_only=True,
-        callbacks=[streaming_callback])
+    llm = GPT4All(
+        model='.//model//wolfram.gguf',
+        callbacks=[streaming_callback],
+        n_threads=12,
+        streaming=True,
+        verbose=True)
     return llm
 
 
@@ -41,6 +40,7 @@ while True:
         llm = initialize_llm()
         file_analyser_logic(llm)
     elif selectedOption == 3:
-        trainer_logic()
+        print("Not implemented")
+        continue
     elif selectedOption == 4:
         break
