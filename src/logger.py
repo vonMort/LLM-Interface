@@ -2,7 +2,8 @@ import sys, time
 
 COLORS = {
     'blue': '\033[94m',
-    'yellow': '\033[93m'
+    'yellow': '\033[93m',
+    'green': '\033[92m'
 }
 
 

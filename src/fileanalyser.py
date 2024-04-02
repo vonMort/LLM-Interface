@@ -19,11 +19,12 @@ def file_analyser_logic(llm):
 def file_analysis(file_path):
     file_path = os.path.normpath(file_path)
     compatible_extensions = ['.py', '.txt', '.json']
-
+    if file_path == '.':
+        lg.print_like_human('No file was specified. Using testfiles folder. Please choose a testfile:')
+        file_path = os.path.join(os.curdir, 'testfiles')
     if os.path.isdir(file_path):
         files = [f for f in os.listdir(file_path) if os.path.isfile(os.path.join(file_path, f)) and any(f.endswith(ext) for ext in compatible_extensions)]
         if files:
-            lg.print_like_human('No file was specified. Found these compatible files in the directory:')
             for idx, filename in enumerate(files, start=1):
                 lg.print_like_human(COLORS['yellow'] + f"{idx}. {filename}")
             choice = lg.input_like_human('Please choose a file by number (or type "exit" to cancel): ')
